@@ -1,6 +1,6 @@
 const db = require('../config/db')
 
-class ProductModel{
+class ClienteModel{
     async getAllClientes(){
         const result = await db.query('SELECT * FROM cliente');
         return result.rows;
@@ -30,7 +30,7 @@ class ProductModel{
         return result.rows[0];
     }
 
-    async deleteProduct(dni){
+    async deleteCliente(dni){
         await db.query(
             'DELETE FROM Cliente where dni = $1',
             [dni]
@@ -39,4 +39,4 @@ class ProductModel{
 
 }
 
-module.exports = new ProductModel();
+module.exports = new ClienteModel();

@@ -21,7 +21,7 @@ class ClienteService{
     }
 
     async removeCliente(dni){
-        await clienteModel.deleteProduct(dni);
+        await clienteModel.deleteCliente(dni);
     }
 }
 
