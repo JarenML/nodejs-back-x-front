@@ -1,4 +1,10 @@
 const clienteService = require('../services/clienteService');
+const errorList = require('../errors');
+
+function handleError(res, type='Unknown') {
+    const err = errorList[type] || errorList.Unknown;
+    return res.status(err.status).json({code: err.code, message: err.message});
+}
 
 class ClienteController {
     async getClientes(req, res){
@@ -7,7 +13,7 @@ class ClienteController {
             res.json(clientes);
         }catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Error al obtener los clientes'});
+            handleError(res, 'DatabaseError');
         }
     }
 
@@ -18,12 +24,12 @@ class ClienteController {
             const cliente = await clienteService.getClienteByDni(dni);
 
             if(!cliente){
-                return res.status(404).json({ message: 'Cliente no encontrado'});
+                return handleError(res, 'NotFound')
             }
             res.json(cliente);
         }catch(error){
             console.error(error);
-            res.status(500).json({ message: 'Error al obtener el cliente'});
+            handleError(res, 'DatabaseError');
         }
     }
 
@@ -34,7 +40,7 @@ class ClienteController {
             res.status(201).json(newCliente);
         }catch (error){
             console.error(error);
-            res.status(500).json({message: 'Error al crear el cliente'});
+            handleError(res, 'Validation');
         }
     }
 
@@ -46,7 +52,7 @@ class ClienteController {
             res.json(updatedCliente);
         }catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Error al actualizar el cliente'});
+            handleError(res, 'DatabaseError');
         }
     }
 
@@ -57,7 +63,7 @@ class ClienteController {
             res.sendStatus(204);
         }catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Error al eliminar el cliente'});
+            handleError(res, 'DatabaseError');
         }
 
     }
