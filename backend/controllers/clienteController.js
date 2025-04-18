@@ -67,6 +67,20 @@ class ClienteController {
         }
 
     }
+
+    async getPurchasedProducts(req, res){
+        try{
+            const { dni } = req.params;
+            const purchasedProducts = await clienteService.listPurchasedProducts(dni);
+            console.log(purchasedProducts);
+            res.json(purchasedProducts);
+
+        }catch(error){
+            console.error(error);
+            handleError(res, 'DatabaseError');
+        }
+        
+    }
 }
 
 module.exports = new ClienteController();

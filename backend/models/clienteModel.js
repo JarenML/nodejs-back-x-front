@@ -37,6 +37,11 @@ class ClienteModel{
         );
     }
 
+    
+    async getAllPurchasedProducts(dni){
+        const result = await db.query('SELECT producto.*, cliente.nombre FROM producto JOIN cliente ON producto.cliente_id = cliente.id WHERE cliente.dni = $1', [dni]);
+        return result.rows;
+    }
 }
 
 module.exports = new ClienteModel();

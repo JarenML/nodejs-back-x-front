@@ -23,6 +23,10 @@ class ClienteService{
     async removeCliente(dni){
         await clienteModel.deleteCliente(dni);
     }
+
+    async listPurchasedProducts(dni){
+        return await clienteModel.getAllPurchasedProducts(dni);
+    }
 }
 
 module.exports = new ClienteService();
